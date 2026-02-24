@@ -109,6 +109,7 @@ if prompt := st.chat_input("¿A dónde querés viajar? ✈️"):
         st.markdown(prompt)
 
     # Llamada a OpenAI
+    limited_messages = [st.session_state.messages[0]] + st.session_state.messages[-6:]
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=st.session_state.messages
@@ -132,4 +133,5 @@ if st.button("💾 Guardar conversación"):
     filename = f"historial_fukuro_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(st.session_state.messages, f, ensure_ascii=False, indent=4)
+
     st.success(f"Conversación guardada como {filename}")
